@@ -41,11 +41,13 @@ public class Composicao {
 
     public boolean engataLocomotiva(Locomotiva locomotiva) {
         Object lastItem = this.composicao.get(this.composicao.size());
-        if (lastItem instanceof Locomotiva || this.composicao.size() == 0) {
+        int tamanhoTrem = this.composicao.size();
+        if (lastItem instanceof Locomotiva || tamanhoTrem == 0) {
             if (this.composicao.add(locomotiva)) {
                 this.qtdLocomotivas++;
-                this.pesoMaximo += locomotiva.getPesoMaximo();
-                this.qtdMaxVagoes += locomotiva.getQtdadeMaxVagoes();
+                this.pesoMaximo += tamanhoTrem == 0 ? locomotiva.getPesoMaximo() : locomotiva.getPesoMaximo() * 0.9;
+                this.qtdMaxVagoes += (int) tamanhoTrem == 0 ? locomotiva.getQtdadeMaxVagoes()
+                        : locomotiva.getQtdadeMaxVagoes() * 0.9;
                 return true;
             }
         }
@@ -57,13 +59,12 @@ public class Composicao {
     }
 
     public boolean engataVagao(Vagao vagao) {
-        if (!((vagao.getCapacidadeCarga() + this.pesoAtual) <= this.pesoMaximo && (qtdVagoes + 1) <= qtdMaxVagoes)) {
-            return false;
-        }
-        if (this.composicao.add(vagao)) {
-            this.qtdVagoes++;
-            this.pesoAtual += vagao.getCapacidadeCarga();
-            return true;
+        if ((vagao.getCapacidadeCarga() + this.pesoAtual) <= this.pesoMaximo && (qtdVagoes + 1) <= qtdMaxVagoes) {
+            if (this.composicao.add(vagao)) {
+                this.qtdVagoes++;
+                this.pesoAtual += vagao.getCapacidadeCarga();
+                return true;
+            }
         }
         return false;
     }
