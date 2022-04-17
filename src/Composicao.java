@@ -20,11 +20,16 @@ public class Composicao {
     }
 
     public Locomotiva getLocomotiva(int posicao) {
-        Object item = this.composicao.get(posicao);
-        if (!(item instanceof Locomotiva)) {
-            throw new IndexOutOfBoundsException("Locomotiva não encontrada nesta posição");
+        try {
+            Object item = this.composicao.get(posicao);
+            if (!(item instanceof Locomotiva)) {
+                throw new IndexOutOfBoundsException();
+            }
+            return (Locomotiva) item;
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Não encontrados itens na posição indicada");
         }
-        return (Locomotiva) item;
+        return null;
     }
 
     public int getQtdadeVagoes() {
@@ -32,11 +37,16 @@ public class Composicao {
     }
 
     public Vagao getVagao(int posicao) {
-        Object item = this.composicao.get(posicao);
-        if (!(item instanceof Vagao)) {
-            throw new IndexOutOfBoundsException("Vagão não encontrado nesta posição");
+        try {
+            Object item = this.composicao.get(posicao);
+            if (!(item instanceof Vagao)) {
+                throw new IndexOutOfBoundsException();
+            }
+            return (Vagao) item;
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Não encontrados itens na posição indicada");
         }
-        return (Vagao) item;
+        return null;
     }
 
     public boolean engataLocomotiva(Locomotiva locomotiva) {
@@ -54,8 +64,15 @@ public class Composicao {
         return false;
     }
 
-    public boolean desengataLocomotiva() {
-        return true;
+    public boolean desengataUltimoItem() {
+        int indexFinal = this.composicao.size();
+
+        if (this.composicao.get(indexFinal) instanceof ItensTrem) {
+            ItensTrem item = (ItensTrem) this.composicao.get(indexFinal);
+            item.liberarItem();
+            return true;
+        }
+        return false;
     }
 
     public boolean engataVagao(Vagao vagao) {

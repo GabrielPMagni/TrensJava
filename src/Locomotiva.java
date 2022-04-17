@@ -1,17 +1,48 @@
-public class Locomotiva {
+public class Locomotiva implements ItensTrem {
+
+    private int id, qtdMaximaVagoes;
+    private double pesoMaximo;
+    private boolean disponivel = true;
+    private Composicao composicaoAtual;
+
+    public Locomotiva(int id, double pesoMaximo, int qtdMaximaVagoes) {
+        this.id = id;
+        this.pesoMaximo = pesoMaximo;
+        this.qtdMaximaVagoes = qtdMaximaVagoes;
+        this.composicaoAtual = null;
+    }
+
     public int getIdentificador() {
-        return 0;
+        return this.id;
     }
 
     public double getPesoMaximo() {
-        return 0.0;
+        return this.pesoMaximo;
     }
 
     public int getQtdadeMaxVagoes() {
-        return 0;
+        return this.qtdMaximaVagoes;
     }
 
-    public int getComposicao() {
-        return 0;
+    public Composicao getComposicao() {
+        return composicaoAtual;
     }
+
+    public boolean setComposicao(Composicao composicao) {
+        if (this.isDisponivel()) {
+            this.composicaoAtual = composicao;
+            return true;
+        }
+        return false;
+    }
+
+    public void liberarItem() {
+        this.composicaoAtual = null;
+        this.disponivel = true;
+    }
+
+    public boolean isDisponivel() {
+        return this.disponivel;
+    }
+
 }
